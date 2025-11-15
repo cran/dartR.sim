@@ -14,7 +14,10 @@
 #' @param sexratio The sex ratio of simulated offspring 
 #' (females / females +males, 1 equals 100 percent females) [default 0.5.].
 #' @param popname population name of the returned genlight object 
-#' [default offspring]
+#' [default "offspring"].
+# @param fbm If TRUE, the genlight object will be converted to a filebacked 
+# large matrix format, which is faster if the dataset is large 
+# [default FALSE, because still in a testing phase].
 #' @param verbose Verbosity: 0, silent or fatal errors; 1, begin and end; 2,
 #' progress log; 3, progress and results summary; 5, full report
 #' [default 2, unless specified using gl.set.verbosity].
@@ -34,6 +37,7 @@ gl.sim.offspring <- function(fathers,
                              noffpermother,
                              sexratio = 0.5, 
                              popname = "offspring",
+                             # fbm = FALSE,
                              verbose = NULL) {
   
   # SET VERBOSITY
@@ -45,7 +49,8 @@ gl.sim.offspring <- function(fathers,
     
     
     if (sum( c(is.na(as.matrix(mothers)), is.na(as.matrix(fathers))))>0 & verbose >= 2) 
-      message(warn("Warning: You have missing data in your genlight object.\nThis most likely will cause unwanted structure in you offspring.\nBest to remove or impute missing values."))
+      cat(warn("Warning: You have missing data in your genlight object.\nThis most likely will cause unwanted structure in you offspring.\nBest to remove or impute missing values."))
+
     mmat <- as.matrix(mothers)[mother, ]
     mhet <- sum(mmat == 1, na.rm=T)
     if (!is.na(mhet)) {
@@ -61,6 +66,8 @@ gl.sim.offspring <- function(fathers,
     } 
     
     offmat <- (mother.half + father.half) / 2
+    #edge case of a single offspring
+    if (!is.matrix(offmat)) offmat <- matrix(offmat, nrow=1)
     gl2 <-
         new(
             "genlight",
@@ -75,5 +82,8 @@ gl.sim.offspring <- function(fathers,
     sr <-
         factor(ifelse(runif(nInd(gl2)) < sexratio, "female", "male"))
     gl2@other$sex <- sr
+    
+    # if (fbm) gl2 <- gl.gen2fbm(gl2)
+    
     return(gl2)
 }
