@@ -53,11 +53,13 @@
 #' @export
 #'
 #' @examples
-# if (isTRUE(getOption("dartR_fbm"))) platypus.gl <- gl.gen2fbm(platypus.gl)
-#' t1 <- gl.filter.callrate(platypus.gl,threshold = 1, mono.rm = TRUE)
+#' \donttest{
+#' # if (isTRUE(getOption("dartR_fbm"))) platypus.gl <- gl.gen2fbm(platypus.gl)
+#' t1 <- gl.filter.callrate(platypus.gl[1:20,1:200],threshold = 1)
 #' r1 <- gl.allele.freq(t1, by='popxloc' )
 #' r2 <- r1[,c("popn",'locus',"frequency")]
-#' res <- gl.sim.ind.af(df = r2, pop.sizes= c(50,50,50))
+#' res <- gl.sim.ind.af(df = r2, pop.sizes= c(10,10,10))
+#' }
 
 gl.sim.ind.af <- function(df,
                           pop.sizes

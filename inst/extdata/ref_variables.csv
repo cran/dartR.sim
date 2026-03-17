@@ -1,5 +1,5 @@
 process,variable,value,description,range_value
-Basic,chunk_number,100,Number of chromosome chunks,Defined by the user
+Basic,chunk_number,2,Number of chromosome chunks,Defined by the user
 Basic,chunk_bp,100000,Number of basepairs (bp) per chromosome chunk,Defined by the user
 Basic,chunk_cM,10,Number of centiMorgans (cM) per chromosome chunk,Defined by the user
 Basic,chunk_neutral_loci,1,Number of loci with neutral alleles per chromosome chunk,Defined by the user
